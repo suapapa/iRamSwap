@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#DEV_IRAM=/dev/sdb
+DEV_IRAM=`iram-get-devname`
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+        mkswap -f $DEV_IRAM
+        swapon $DEV_IRAM
+        ;;  
+  restart|reload|force-reload)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;  
+  stop)
+        # swapoff $DEV_IRAM
+	# no op
+        ;;  
+  *)  
+        echo "Usage: $0 start|stop" >&2
+        exit 3
+        ;;  
+esac

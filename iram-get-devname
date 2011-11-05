@@ -1,0 +1,24 @@
+#!/usr/bin/python
+
+import os
+import sys
+import commands
+
+iRamName = "GIGABYTE i-RAM"
+
+def foundDevName(modelName):
+    for c in "abcdefghijklmnopqrstuvwxyz":
+        devPath = "/dev/sd%s"%c
+        if os.path.exists(devPath):
+            report = commands.getoutput('/sbin/hdparm -i %s'%devPath)
+            for line in report.split('\n'):
+                if line.strip().startswith("Model=") and modelName in line:
+                    return devPath
+    return None
+
+iRamDevName = foundDevName(iRamName)
+if not iRamDevName:
+    sys.exit(-1)
+
+print iRamDevName
+sys.exit(0)
