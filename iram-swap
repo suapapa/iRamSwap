@@ -9,7 +9,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 case "$1" in
   start)
         mkswap -f $DEV_IRAM
-        swapon $DEV_IRAM
+        swapon -p32767 $DEV_IRAM
         ;;  
   restart|reload|force-reload)
         echo "Error: argument '$1' not supported" >&2
